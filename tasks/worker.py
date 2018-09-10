@@ -130,7 +130,8 @@ def grouping(concurrent, period_result, period_id, minion_list, salt_api, user, 
                 if period_result.get("execute") == "shell":
                     result = salt_api.shell_remote_execution(minion, period_result.get("shell"))
                 elif period_result.get("execute") == "sls":
-                    result = salt_api.target_deploy(minion, period_result.get("sls"))
+                    sls = re.sub("\.sls", "", period_result.get("sls"))
+                    result = salt_api.target_deploy(minion, sls)
                 # 执行结果写入到period_result表
                 results = {
                     "time": int(time.time()),
